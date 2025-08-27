@@ -1,7 +1,7 @@
 {
-  "name": "Casual_Options",
-  "version_number": "0.1.2",
+  "name": "Perk_Changer",
+  "version_number": "1.0.0",
   "website_url": "https://github.com/binbinmods/PerkChanger",
-  "description": "A mod meant to make the game more accessible, adds options for bonus resources, increasing HP, adding Buffs, and preventing Death's Doors.",
+  "description": "Allows you to change perks outside of the Act 1 town.",
   "dependencies": ["BepInEx-BepInExPack_AcrossTheObelisk-5.4.23"]
 }

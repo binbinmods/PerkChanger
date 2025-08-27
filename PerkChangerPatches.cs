@@ -31,7 +31,14 @@ namespace PerkChanger
         public static bool bSelectingPerk = false;
         public static bool IsHost()
         {
-            return true;
+            return (GameManager.Instance.IsMultiplayer() && NetworkManager.Instance.IsMaster()) || !GameManager.Instance.IsMultiplayer();
+        }
+
+        public static bool CanChangePerk()
+        {
+            bool singleplayerCanChange = EnablePerkChangeWhenever.Value || (EnablePerkChangeInTowns.Value && AtOManager.Instance.CharInTown());
+            bool mpCanChange = EnablePerkChangeWhenever.Value || (EnablePerkChangeInTownsMP && AtOManager.Instance.CharInTown());
+            return true; //IsHost() ? singleplayerCanChange : mpCanChange;
         }
 
 
@@ -41,7 +48,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(PerkTree), "CanModify")]
         public static void CanModifyPostfix(ref bool __result)
         {
-            if (IsHost() ? EnablePerkChangeWhenever.Value : EnablePerkChangeWheneverMP)
+            if (CanChangePerk())
                 __result = true;
         }
 
@@ -50,7 +57,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(PerkTree), "SelectPerk")]
         public static void SelectPerkPrefix()
         {
-            if (IsHost() ? EnablePerkChangeWhenever.Value : EnablePerkChangeWheneverMP)
+            if (CanChangePerk())
                 bSelectingPerk = true;
         }
 
@@ -65,7 +72,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(AtOManager), "CharInTown")]
         public static void CharInTownPostfix(ref bool __result)
         {
-            if (bSelectingPerk)
+            if (bSelectingPerk)// && EnablePerkChangeWhenever.Value)
                 __result = true;
         }
 
@@ -73,7 +80,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(AtOManager), "GetTownTier")]
         public static void GetTownTierPostfix(ref int __result)
         {
-            if (bSelectingPerk)
+            if (bSelectingPerk)// && EnablePerkChangeWhenever.Value)
                 __result = 0;
         }
 
@@ -105,7 +112,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(PerkNode), "OnMouseUp")]
         public static void OnMouseUpPrefix(ref PerkNode __instance)
         {
-            if (IsHost() ? EnablePerkChangeWhenever.Value : EnablePerkChangeWheneverMP)
+            if (CanChangePerk())
             {
                 Traverse.Create(__instance).Field("nodeLocked").SetValue(false);
                 __instance.iconLock.gameObject.SetActive(false);
@@ -124,7 +131,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(PerkNode), "OnMouseEnter")]
         public static void OnMouseEnterPrefix(ref PerkNode __instance)
         {
-            if (IsHost() ? EnablePerkChangeWhenever.Value : EnablePerkChangeWheneverMP)
+            if (CanChangePerk())
             {
                 bSelectingPerk = true;
             }
@@ -141,25 +148,23 @@ namespace PerkChanger
         [HarmonyPatch(typeof(PerkTree), "Show")]
         public static void ShowPostfix(ref PerkTree __instance, ref int ___totalAvailablePoints)
         {
-            if (IsHost() ? EnablePerkChangeWhenever.Value : EnablePerkChangeWheneverMP)
+            if (CanChangePerk())
             {
                 __instance.buttonReset.gameObject.SetActive(value: true);
                 __instance.buttonImport.gameObject.SetActive(value: true);
                 __instance.buttonExport.gameObject.SetActive(value: true);
                 __instance.saveSlots.gameObject.SetActive(value: true);
                 __instance.buttonConfirm.gameObject.SetActive(value: true);
-                //__instance.buttonConfirm.Enable();
+                // __instance.buttonConfirm.Enable();
             }
             return;
         }
-
-        // 20230401 ModifyPerks fix?
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(PerkNode), "SetIconLock")]
         public static void SetIconLockPrefix(ref bool _state)
         {
-            if (IsHost() ? EnablePerkChangeWhenever.Value : EnablePerkChangeWheneverMP)
+            if (CanChangePerk())
                 _state = false;
         }
 
@@ -167,7 +172,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(PerkNode), "SetLocked")]
         public static void SetLockedPrefix(ref bool _status)
         {
-            if (IsHost() ? EnablePerkChangeWhenever.Value : EnablePerkChangeWheneverMP)
+            if (CanChangePerk())
                 _status = false;
         }
 

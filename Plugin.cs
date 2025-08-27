@@ -4,9 +4,10 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Configuration;
 using HarmonyLib;
-// using static Obeliskial_Essentials.Essentials;
+using static Obeliskial_Essentials.Essentials;
 using System;
 using System.Collections.Generic;
+using BepInEx.Bootstrap;
 
 
 // The Plugin csharp file is used to specify some general info about your plugin. and set up things for 
@@ -41,6 +42,7 @@ namespace PerkChanger
         // You can use: config = Config.Bind() to set the title, default value, and description of the config.
         // It automatically creates the appropriate configs.
 
+        public static bool EssentialsInstalled = false;
         public static ConfigEntry<bool> EnableMod { get; set; }
         public static ConfigEntry<bool> EnableDebugging { get; set; }
         public static ConfigEntry<bool> EnablePerkChangeInTowns { get; set; }
@@ -76,15 +78,21 @@ namespace PerkChanger
             // DevMode = Config.Bind(new ConfigDefinition("DespairMode", "DevMode"), false, new ConfigDescription("Enables all of the things for testing."));
 
 
-            // Register with Obeliskial Essentials, delete this if you don't need it.
-            // RegisterMod(
-            //     _name: PluginInfo.PLUGIN_NAME,
-            //     _author: "binbin",
-            //     _description: "Sample Plugin",
-            //     _version: PluginInfo.PLUGIN_VERSION,
-            //     _date: ModDate,
-            //     _link: @"https://github.com/binbinmods/SampleCSharpWorkspace"
-            // );
+            EssentialsInstalled = Chainloader.PluginInfos.ContainsKey("com.stiffmeds.obeliskialessentials");
+
+            // Register with Obeliskial Essentials
+            if (EssentialsInstalled)
+            {
+                RegisterMod(
+                    _name: PluginInfo.PLUGIN_NAME,
+                    _author: "binbin",
+                    _description: "Weekly Selector",
+                    _version: PluginInfo.PLUGIN_VERSION,
+                    _date: ModDate,
+                    _link: @"https://github.com/binbinmods/WeeklySelectorMod"
+                );
+
+            }
 
             // apply patches, this functionally runs all the code for Harmony, running your mod
             if (EnableMod.Value) { harmony.PatchAll(); }
