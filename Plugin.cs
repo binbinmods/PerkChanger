@@ -50,8 +50,11 @@ namespace PerkChanger
         public static bool EnablePerkChangeInTownsMP { get; set; }
         public static bool EnablePerkChangeWheneverMP { get; set; }
 
+        public static string PluginName;
+        public static string PluginVersion;
+        public static string PluginGUID;
 
-        internal int ModDate = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
+        internal static int ModDate = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
         private readonly Harmony harmony = new(PluginInfo.PLUGIN_GUID);
         internal static ManualLogSource Log;
 
@@ -78,25 +81,20 @@ namespace PerkChanger
             // DevMode = Config.Bind(new ConfigDefinition("DespairMode", "DevMode"), false, new ConfigDescription("Enables all of the things for testing."));
 
 
-            EssentialsInstalled = Chainloader.PluginInfos.ContainsKey("com.stiffmeds.obeliskialessentials");
-
-            // Register with Obeliskial Essentials
-            if (EssentialsInstalled)
+            PluginName = PluginInfo.PLUGIN_NAME;
+            PluginVersion = PluginInfo.PLUGIN_VERSION;
+            PluginGUID = PluginInfo.PLUGIN_GUID;
+            if (EnableMod.Value)
             {
-                RegisterMod(
-                    _name: PluginInfo.PLUGIN_NAME,
-                    _author: "binbin",
-                    _description: "Weekly Selector",
-                    _version: PluginInfo.PLUGIN_VERSION,
-                    _date: ModDate,
-                    _link: @"https://github.com/binbinmods/WeeklySelectorMod"
-                );
-
+                if (EssentialsCompatibility.Enabled)
+                    EssentialsCompatibility.EssentialsRegister();
+                else
+                    LogInfo($"{PluginGUID} {PluginVersion} has loaded!");
+                harmony.PatchAll();
             }
-
-            // apply patches, this functionally runs all the code for Harmony, running your mod
-            if (EnableMod.Value) { harmony.PatchAll(); }
         }
+
+        // apply patches, this functionally runs all the code for Harmony, running your mod        }
 
 
         // These are some functions to make debugging a tiny bit easier.

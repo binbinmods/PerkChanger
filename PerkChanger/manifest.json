@@ -1,6 +1,6 @@
 {
   "name": "Perk_Changer",
-  "version_number": "1.0.0",
+  "version_number": "1.0.2",
   "website_url": "https://github.com/binbinmods/PerkChanger",
   "description": "Allows you to change perks outside of the Act 1 town.",
   "dependencies": ["BepInEx-BepInExPack_AcrossTheObelisk-5.4.23"]
