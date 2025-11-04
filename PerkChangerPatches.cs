@@ -176,6 +176,48 @@ namespace PerkChanger
                 _status = false;
         }
 
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(SteamManager), "SetObeliskScore")]
+        public static bool SetObeliskScorePrefix(ref SteamManager __instance, int score, bool singleplayer = true)
+        {
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(SteamManager), "SetScore")]
+        public static bool SetScorePrefix(ref SteamManager __instance, int score, bool singleplayer = true)
+        {
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(SteamManager), "SetSingularityScore")]
+        public static bool SetSingularityScorePrefix(ref SteamManager __instance, int score, bool singleplayer = true)
+        {
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(SteamManager), "SetObeliskScoreLeaderboard")]
+        public static bool SetObeliskScoreLeaderboardPrefix(ref SteamManager __instance, int score, bool singleplayer = true)
+        {
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(SteamManager), "SetScoreLeaderboard")]
+        public static bool SetScoreLeaderboardPrefix(ref SteamManager __instance, int score, bool singleplayer = true)
+        {
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(SteamManager), "SetSingularityScoreLeaderboard")]
+        public static bool SetSingularityScoreLeaderboardPrefix(ref SteamManager __instance, int score, bool singleplayer = true)
+        {
+            return false;
+        }
+
 
     }
 }
