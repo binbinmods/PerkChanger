@@ -29,20 +29,6 @@ namespace PerkChanger
     {
         public static bool devMode = false; //DevMode.Value;
         public static bool bSelectingPerk = false;
-        public static bool IsHost()
-        {
-            return (GameManager.Instance.IsMultiplayer() && NetworkManager.Instance.IsMaster()) || !GameManager.Instance.IsMultiplayer();
-        }
-
-        public static bool CanChangePerk()
-        {
-            bool singleplayerCanChange = EnablePerkChangeWhenever.Value || (EnablePerkChangeInTowns.Value && AtOManager.Instance.CharInTown());
-            bool mpCanChange = EnablePerkChangeWhenever.Value || (EnablePerkChangeInTownsMP && AtOManager.Instance.CharInTown());
-            return true; //IsHost() ? singleplayerCanChange : mpCanChange;
-        }
-
-
-
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(PerkTree), "CanModify")]
@@ -72,7 +58,7 @@ namespace PerkChanger
         [HarmonyPatch(typeof(AtOManager), "CharInTown")]
         public static void CharInTownPostfix(ref bool __result)
         {
-            if (bSelectingPerk)// && EnablePerkChangeWhenever.Value)
+            if (bSelectingPerk)// || EnablePerkChangeWhenever.Value)
                 __result = true;
         }
 

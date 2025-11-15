@@ -72,9 +72,9 @@ namespace PerkChanger
             EnableMod = Config.Bind(new ConfigDefinition(modName, "EnableMod"), true, new ConfigDescription("Enables the mod. If false, the mod will not work then next time you load the game."));
             EnableDebugging = Config.Bind(new ConfigDefinition(modName, "EnableDebugging"), false, new ConfigDescription("Enables the debugging"));
             EnablePerkChangeInTowns = Config.Bind(new ConfigDefinition(modName, "EnablePerkChangeInTowns"), true, new ConfigDescription("Enables you to change perks in any town."));
-            EnablePerkChangeInTownsMP = true; // = Config.Bind(new ConfigDefinition(modName, "EnablePerkChangeInTownsMP"), true, new ConfigDescription("Enables you to change perks in any town for multiplayer."));
+            // EnablePerkChangeInTownsMP = true; // = Config.Bind(new ConfigDefinition(modName, "EnablePerkChangeInTownsMP"), true, new ConfigDescription("Enables you to change perks in any town for multiplayer."));
             EnablePerkChangeWhenever = Config.Bind(new ConfigDefinition(modName, "EnablePerkChangeWhenever"), false, new ConfigDescription("Enables you to change perks at any time."));
-            EnablePerkChangeWheneverMP = true; //Config.Bind(new ConfigDefinition(modName, "EnablePerkChangeWheneverMP"), false, new ConfigDescription("Enables you to change perks at any time for Multiplayer."));
+            // EnablePerkChangeWheneverMP = true; //Config.Bind(new ConfigDefinition(modName, "EnablePerkChangeWheneverMP"), false, new ConfigDescription("Enables you to change perks at any time for Multiplayer."));
 
 
 

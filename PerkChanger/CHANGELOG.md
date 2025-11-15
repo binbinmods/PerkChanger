@@ -1,3 +1,7 @@
+# 1.0.3
+
+Minor Bug fixes
+
 # 1.0.2
 
 Updated Essentials Compatibility
